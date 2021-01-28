@@ -264,5 +264,23 @@ void nrf_802154_serialization_error(const nrf_802154_ser_err_data_t *err)
 	__ASSERT(false, "802.15.4 serialization error");
 }
 
+#include "nrf_802154_sl_fault.h"
+
+void nrf_802154_sl_fault_handler(uint32_t module_id, int32_t line, const char * p_error)
+{
+    if (p_error == NULL)
+    {
+        p_error = "error unknown";
+    }
+
+    printk("nrf_802154_sl: ASSERTION FAILED: Module %" PRIu32 ":%" PRId32 " expr: '%s'",
+        module_id, line, p_error);
+    k_panic();
+
+    __disable_irq();
+    while (1)
+    {
+    }
+}
 
 SYS_INIT(register_endpoint, POST_KERNEL, CONFIG_RPMSG_SERVICE_EP_REG_PRIORITY);
