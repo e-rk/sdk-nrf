@@ -204,7 +204,7 @@ static int mpsl_signal_thread_init(const struct device *dev)
 	k_thread_create(&signal_thread_data, signal_thread_stack,
 			K_THREAD_STACK_SIZEOF(signal_thread_stack),
 			signal_thread, NULL, NULL, NULL,
-			K_PRIO_COOP(CONFIG_MPSL_THREAD_COOP_PRIO),
+			K_HIGHEST_THREAD_PRIO,
 			0, K_NO_WAIT);
 	k_thread_name_set(&signal_thread_data, "MPSL signal");
 
