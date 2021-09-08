@@ -57,6 +57,8 @@ static void mpsl_low_prio_irq_handler(void)
 
 #include <../src/nrf_802154_debug_log.h>
 
+#define NRF_802154_MODULE_ID 33U
+
 static void signal_thread(void *p1, void *p2, void *p3)
 {
 	ARG_UNUSED(p1);
