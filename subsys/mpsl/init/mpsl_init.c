@@ -55,6 +55,8 @@ static void mpsl_low_prio_irq_handler(void)
 	k_sem_give(&sem_signal);
 }
 
+#include <../src/nrf_802154_debug_log.h>
+
 static void signal_thread(void *p1, void *p2, void *p3)
 {
 	ARG_UNUSED(p1);
@@ -68,7 +70,9 @@ static void signal_thread(void *p1, void *p2, void *p3)
 
 		errcode = MULTITHREADING_LOCK_ACQUIRE();
 		__ASSERT_NO_MSG(errcode == 0);
+		nrf_802154_log_function_enter(NRF_802154_LOG_VERBOSITY_LOW);
 		mpsl_low_priority_process();
+		nrf_802154_log_function_exit(NRF_802154_LOG_VERBOSITY_LOW);
 		MULTITHREADING_LOCK_RELEASE();
 	}
 }
