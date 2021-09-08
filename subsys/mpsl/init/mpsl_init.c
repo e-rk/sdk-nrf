@@ -50,14 +50,16 @@ BUILD_ASSERT(MPSL_TIMESLOT_SESSION_COUNT <= MPSL_TIMESLOT_CONTEXT_COUNT_MAX,
 static uint8_t __aligned(4) timeslot_context[TIMESLOT_MEM_SIZE];
 #endif
 
-static void mpsl_low_prio_irq_handler(void)
-{
-	k_sem_give(&sem_signal);
-}
-
 #include <../src/nrf_802154_debug_log.h>
 
 #define NRF_802154_MODULE_ID 33U
+
+static void mpsl_low_prio_irq_handler(void)
+{
+	nrf_802154_log_function_enter(NRF_802154_LOG_VERBOSITY_LOW);
+	k_sem_give(&sem_signal);
+	nrf_802154_log_function_exit(NRF_802154_LOG_VERBOSITY_LOW);
+}
 
 static void signal_thread(void *p1, void *p2, void *p3)
 {
