@@ -33,6 +33,8 @@ manifest:
       url-base: https://github.com/NordicSemiconductor
     - name: memfault
       url-base: https://github.com/memfault
+    - name: e-rk
+      url-base: https://github.com/e-rk
 
   # If not otherwise specified, the projects below should be obtained
   # from the ncs remote.
@@ -108,7 +110,8 @@ manifest:
     - name: nrfxlib
       repo-path: sdk-nrfxlib
       path: nrfxlib
-      revision: 79c55b287673dbae97e2cfded8acba570b19c8a2
+      revision: nopr/test-branch
+      remote: e-rk
     - name: trusted-firmware-m
       repo-path: sdk-trusted-firmware-m
       path: modules/tee/tf-m/trusted-firmware-m
