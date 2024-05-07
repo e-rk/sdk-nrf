@@ -27,3 +27,4 @@ If you want to list applications available for one or more specific boards, `use
    ../../applications/serial_lte_modem/README
    ../../applications/matter_weather_station/README
    ../../applications/zigbee_weather_station/README
+   ../../applications/suit/flash_companion/README
