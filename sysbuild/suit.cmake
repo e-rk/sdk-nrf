@@ -22,3 +22,16 @@ if(SB_CONFIG_SUIT_BUILD_FLASH_COMPANION)
     BOARD ${board_target}
   )
 endif()
+
+if (SB_CONFIG_SUIT_BUILD_RECOVERY)
+  ExternalZephyrProject_Add(
+    APPLICATION recovery_app
+    SOURCE_DIR "${ZEPHYR_NRF_MODULE_DIR}/samples/multicore/recovery"
+    BOARD "nrf54h20dk/nrf54h20/cpuapp"
+  )
+  ExternalZephyrProject_Add(
+    APPLICATION recovery_rad
+    SOURCE_DIR "${ZEPHYR_NRF_MODULE_DIR}/../zephyr/samples/bluetooth/hci_ipc"
+    BOARD "nrf54h20dk/nrf54h20/cpurad"
+  )
+endif()
