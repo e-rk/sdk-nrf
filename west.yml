@@ -41,6 +41,8 @@ manifest:
       url-base: https://github.com/boschsensortec
     - name: eembc
       url-base: https://github.com/eembc
+    - name: raku
+      url-base: https://github.com/e-rk
 
   # If not otherwise specified, the projects below should be obtained
   # from the ncs remote.
@@ -155,9 +157,10 @@ manifest:
       repo-path: sdk-oberon-psa-crypto
       revision: 5bfe42c2375204e38a067fe15bd33d581fbfbd01
     - name: nrfxlib
-      repo-path: sdk-nrfxlib
+      repo-path: sdk-nrfxlib-next
       path: nrfxlib
-      revision: b4c65adeac9775a9b86a6ff05c864e82787bc76f
+      remote: raku
+      revision: robustnesstest
     - name: trusted-firmware-m
       repo-path: sdk-trusted-firmware-m
       path: modules/tee/tf-m/trusted-firmware-m
