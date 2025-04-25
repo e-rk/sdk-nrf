@@ -473,3 +473,11 @@ void cmd_uart_send_rsp_l_get_gpio_error(ptt_evt_id_t evt_id)
 
 	ptt_uart_send_packet(evt_data->arr, strlen(PTT_CAST_TO_STR(evt_data->arr)));
 }
+
+void cmd_uart_send_rsp_l_tx_finished(uint8_t frames, uint8_t acks)
+{
+	char buf[40];
+	sprintf(buf, "0x000000%02x 0x000000%02x", frames, acks);
+
+	ptt_uart_send_packet(buf, strlen(buf));
+}
