@@ -72,13 +72,45 @@ typedef uint8_t (*hci_internal_user_cmd_handler_t)(uint8_t const *cmd,
  */
 int hci_internal_user_cmd_handler_register(const hci_internal_user_cmd_handler_t handler);
 
+/** A user implementable HCI command handler that encodes its own event
+ *
+ * This behaves like @ref hci_internal_user_cmd_handler_t, except that the handler is responsible
+ * for encoding the whole event. Nothing is generated on its behalf.
+ *
+ * Use @ref hci_internal_encode_command_complete or @ref hci_internal_encode_command_status for
+ * the Command Complete and Command Status formats. A handler is also free to encode any other event
+ * instead.
+ *
+ * @param[in]  cmd            The HCI command itself. The first byte in the buffer corresponds to
+ *                            OpCode, as specified by the Bluetooth Core Specification.
+ * @param[out] raw_event_out  Buffer for the event to be returned to the host, including the event
+ *                            header. The encoded event must not exceed @ref BT_BUF_EVT_RX_SIZE
+ *                            bytes. Validity of the content is determined by the return value.
+ *
+ * @retval true  The command has been fully handled and event has been generated.
+ * @retval false The command was not handled. No event has been generated.
+ */
+typedef bool (*hci_internal_raw_cmd_handler_t)(uint8_t const *cmd,
+					       uint8_t *raw_event_out);
+
 struct hci_internal_user_extension_handler {
 	hci_internal_user_cmd_handler_t hci_handler;
 	int (*init)(void);
 };
 
+struct hci_internal_raw_extension_handler {
+	hci_internal_raw_cmd_handler_t hci_handler;
+	int (*init)(void);
+};
+
 #define DEFINE_HCI_USER_EXTENSION_HANDLER(name, cmd_handler, init_handler)                         \
 	STRUCT_SECTION_ITERABLE(hci_internal_user_extension_handler, name) = {                     \
+		.hci_handler = cmd_handler,                                                        \
+		.init = init_handler,                                                              \
+	}
+
+#define DEFINE_HCI_USER_EXTENSION_HANDLER_RAW(name, cmd_handler, init_handler)                     \
+	STRUCT_SECTION_ITERABLE(hci_internal_raw_extension_handler, name) = {                      \
 		.hci_handler = cmd_handler,                                                        \
 		.init = init_handler,                                                              \
 	}

@@ -804,5 +804,13 @@ config BT_HCI_SUPPORT_DEPRECATED_COMMANDS
 	  Enable support for deprecated HCI commands in the SoftDevice Controller, if any.
 	  These may cause deprecation warnings or errors during compilation.
 
+config BT_HCI_RAW_COMMAND_HANDLER
+	bool "Raw HCI command handler"
+	depends on BT_HCI_RAW
+	select EXPERIMENTAL
+	help
+	  Enable support for raw HCI command handlers, which allow for encoding custom events.
+	  Available only with RAW HCI.
+
 endmenu
 endif  # BT_LL_SOFTDEVICE

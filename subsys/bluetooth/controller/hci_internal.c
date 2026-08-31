@@ -1882,7 +1882,7 @@ static void cmd_put(uint8_t *cmd_in, uint8_t * const raw_event_out)
 {
 	uint8_t status = BT_HCI_ERR_UNKNOWN_CMD;
 	uint16_t opcode = sys_get_le16(cmd_in);
-	bool generate_command_status_event;
+	bool generate_command_status_event = false;
 
 	/* Assume command complete */
 	uint8_t return_param_length = sizeof(struct bt_hci_evt_cmd_complete)
@@ -1893,6 +1893,17 @@ static void cmd_put(uint8_t *cmd_in, uint8_t * const raw_event_out)
 					  raw_event_out,
 					  &return_param_length,
 					  &generate_command_status_event);
+	}
+
+	if (IS_ENABLED(CONFIG_BT_HCI_RAW_COMMAND_HANDLER)) {
+		STRUCT_SECTION_FOREACH(hci_internal_raw_extension_handler, handler)
+		{
+			if (handler->hci_handler) {
+				if (handler->hci_handler(cmd_in, raw_event_out)) {
+					return;
+				}
+			}
+		}
 	}
 
 	STRUCT_SECTION_FOREACH(hci_internal_user_extension_handler, handler)
